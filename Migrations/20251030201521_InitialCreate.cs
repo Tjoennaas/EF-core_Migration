@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace EF_core_Migration.Migrations
 {
     /// <inheritdoc />
@@ -38,7 +40,7 @@ namespace EF_core_Migration.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseStudent",
+                name: "StudentCourses",
                 columns: table => new
                 {
                     CoursesId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -46,24 +48,53 @@ namespace EF_core_Migration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseStudent", x => new { x.CoursesId, x.StudentsId });
+                    table.PrimaryKey("PK_StudentCourses", x => new { x.CoursesId, x.StudentsId });
                     table.ForeignKey(
-                        name: "FK_CourseStudent_Courses_CoursesId",
+                        name: "FK_StudentCourses_Courses_CoursesId",
                         column: x => x.CoursesId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseStudent_Students_StudentsId",
+                        name: "FK_StudentCourses_Students_StudentsId",
                         column: x => x.StudentsId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Matte" },
+                    { 2, "Kjemi" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "Age", "Name" },
+                values: new object[,]
+                {
+                    { 101, 20, "Hans" },
+                    { 102, 25, "Grete" },
+                    { 103, 33, "Trine" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudentCourses",
+                columns: new[] { "CoursesId", "StudentsId" },
+                values: new object[,]
+                {
+                    { 1, 101 },
+                    { 2, 102 },
+                    { 2, 103 }
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_CourseStudent_StudentsId",
-                table: "CourseStudent",
+                name: "IX_StudentCourses_StudentsId",
+                table: "StudentCourses",
                 column: "StudentsId");
         }
 
@@ -71,7 +102,7 @@ namespace EF_core_Migration.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseStudent");
+                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Courses");
