@@ -16,6 +16,21 @@ namespace EF_core_Migration.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
+            modelBuilder.Entity("CourseStudent", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CoursesId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("CourseStudent");
+                });
+
             modelBuilder.Entity("EFcore_Migration.Models.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -29,18 +44,6 @@ namespace EF_core_Migration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Matte"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Title = "Kjemi"
-                        });
                 });
 
             modelBuilder.Entity("EFcore_Migration.Models.Student", b =>
@@ -59,61 +62,9 @@ namespace EF_core_Migration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 101,
-                            Age = 20,
-                            Name = "Hans"
-                        },
-                        new
-                        {
-                            Id = 102,
-                            Age = 25,
-                            Name = "Grete"
-                        },
-                        new
-                        {
-                            Id = 103,
-                            Age = 33,
-                            Name = "Trine"
-                        });
                 });
 
-            modelBuilder.Entity("StudentCourses", b =>
-                {
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CoursesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("StudentCourses");
-
-                    b.HasData(
-                        new
-                        {
-                            CoursesId = 1,
-                            StudentsId = 101
-                        },
-                        new
-                        {
-                            CoursesId = 2,
-                            StudentsId = 102
-                        },
-                        new
-                        {
-                            CoursesId = 2,
-                            StudentsId = 103
-                        });
-                });
-
-            modelBuilder.Entity("StudentCourses", b =>
+            modelBuilder.Entity("CourseStudent", b =>
                 {
                     b.HasOne("EFcore_Migration.Models.Course", null)
                         .WithMany()
